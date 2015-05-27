@@ -1,0 +1,45 @@
+
+html {
+	background: url("../imagenes/party.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
+	background-color: black;
+	background-size: cover;
+	color: white;
+	font-family: Helvetica;
+	font-size: 28px;
+	text-align: center;
+}
+input {
+	margin: 0.5em;
+	border: 0;
+	padding: 10px;
+	font-size: 28px;
+	color: black;
+	background-color: white;
+	opacity: 0.8;
+}
+
+button {
+	margin: 1em;
+	border: 0;
+	padding: 10px;
+	font-size: 28px;
+	background: red;
+	color: white;
+}
+
+div {
+	padding:1% 0;
+	position: relative;
+	vertical-align: middle;
+	width: 400px;
+}
+
+#resultado, #listado{
+	padding:1% 0;
+	position: relative;
+	padding: 1% 0;
+	text-shadow: 2px 2px 5px black;
+}
