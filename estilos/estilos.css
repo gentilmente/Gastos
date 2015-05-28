@@ -10,7 +10,9 @@ html {
 	font-family: Helvetica;
 	font-size: 28px;
 	text-align: center;
+	vertical-align: middle;
 }
+
 input {
 	margin: 0.5em;
 	border: 0;
@@ -31,15 +33,34 @@ button {
 }
 
 div {
-	padding:1% 0;
-	position: relative;
+	background-color: #547980;
+	border-radius: 5px;
+	border: 1px solid black;
+	padding:1% 0;	
 	vertical-align: middle;
-	width: 400px;
 }
 
-#resultado, #listado{
-	padding:1% 0;
+#contenedor{
 	position: relative;
-	padding: 1% 0;
+	width: 100%;
+	height: 100%;
+}
+
+form {
+	display: inline-block;
+	border-radius: 5px;
+	border: 1px solid black;
+	width: 500px;
+}
+
+#resultado{
+	display: inline-block;
+	background-color: #540000;
+	position: relative;
+	width: 500px;
+}
+
+#total, #listado{
+	/*position: relative;*/
 	text-shadow: 2px 2px 5px black;
 }

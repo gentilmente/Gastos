@@ -5,42 +5,42 @@
     <title>Repartija</title>
     <link rel="stylesheet" href="./estilos/estilos.css">
     <script>
-        var pagos=[]
-        
-        function sumarValores(array){
-            var total = 0
-            for (var i = 0; i < array.length; i++)
-               total += parseFloat(array[i].pago)
-           return total/ array.length
-        }
+      var pagos=[]
 
-        function agregarElemento(){
-            var cuadroPagos = document.getElementById("listado");
-            var cuadroResultado = document.getElementById("resultado");
-            var usuario = document.getElementById("nombre").value
-            var valor = document.getElementById("pago").value
-            pagos.push({nombre: usuario, pago: valor})
+      function sumarValores(array){
+        var total = 0
+        for (var i = 0; i < array.length; i++)
+          total += parseFloat(array[i].pago)
+        return total/ array.length
+      }
+
+      function agregarElemento(){
+        var cuadroPagos = document.getElementById("listado");
+        var cuadroResultado = document.getElementById("total");
+        var usuario = document.getElementById("nombre").value
+        var valor = document.getElementById("pago").value
+        pagos.push({nombre: usuario, pago: valor})
 
         cuadroPagos.innerHTML = pagos.map(function (elem){
-                return elem.nombre + ": $" + elem.pago;
-            }).join('<br/>');
+          return elem.nombre + ": $" + elem.pago;
+        }).join('<br/>');
 
         cuadroResultado.innerHTML = "Total dividido entre todos: $" + sumarValores(pagos) 
-       }
+      }
     </script>
   </head>
   <body>
-    <h1>Repartija</h1>
-    <div>
-        <form>
-            <input id ='nombre' type='text' placeholder='Nombre'>
-            <input id ='pago' type='number' placeholder='y cuánto gastó'>     
-            <button type='button' onclick="agregarElemento()">enviar</button>
-        </form>
-    </div>
-    <div>
+    <div id = 'contenedor'>
+      <h1>Repartija</h1>
+      <form>
+        <input id ='nombre' type='text' placeholder='Nombre'>
+        <input id ='pago' type='number' placeholder='y cuánto gastó'>     
+        <button type='button' onclick="agregarElemento()">enviar</button>
+      </form>
+      <div id = 'resultado'>
         <div id="listado"></div>
-        <div id='resultado' type="text"></div>
+        <div id='total' type="text"></div>
+      </div>
     </div>
   </body>
 </html>
