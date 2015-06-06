@@ -32,11 +32,13 @@
   <body>
     <div id = 'contenedor'>
       <h1>Repartija</h1>
-      <form>
-        <input id ='nombre' type='text' placeholder='Nombre'>
-        <input id ='pago' type='number' placeholder='y cuánto gastó'>     
-        <button type='button' onclick="agregarElemento()">enviar</button>
-      </form>
+        <div id = 'res'>
+          <form>
+            <input id ='nombre' type='text' placeholder='Nombre'>
+            <input id ='pago' type='number' placeholder='y cuánto gastó'>     
+            <button type='button' onclick="agregarElemento()">enviar</button>
+          </form>
+        </div>
       <div id = 'resultado'>
         <div id="listado"></div>
         <div id='total' type="text"></div>

@@ -10,10 +10,10 @@ html {
 	font-family: Helvetica;
 	font-size: 28px;
 	text-align: center;
-	vertical-align: middle;
+	/* vertical-align: middle; */
 }
 
-input {
+input, button {
 	margin: 0.5em;
 	border: 0;
 	padding: 10px;
@@ -24,20 +24,8 @@ input {
 }
 
 button {
-	margin: 1em;
-	border: 0;
-	padding: 10px;
-	font-size: 28px;
 	background: red;
 	color: white;
-}
-
-div {
-	background-color: #547980;
-	border-radius: 5px;
-	border: 1px solid black;
-	padding:1% 0;	
-	vertical-align: middle;
 }
 
 #contenedor{
@@ -46,21 +34,14 @@ div {
 	height: 100%;
 }
 
-form {
+#resultado, #res{
+    vertical-align: top;
 	display: inline-block;
-	border-radius: 5px;
-	border: 1px solid black;
-	width: 500px;
-}
-
-#resultado{
-	display: inline-block;
-	background-color: #540000;
-	position: relative;
-	width: 500px;
+	width: 400px;
+	height: 250px;
 }
 
 #total, #listado{
-	/*position: relative;*/
 	text-shadow: 2px 2px 5px black;
+	font-size: 20px;
 }
