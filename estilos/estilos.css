@@ -34,14 +34,19 @@ button {
 	height: 100%;
 }
 
-#resultado, #res{
-    vertical-align: top;
+#resultado, #entrada{
 	display: inline-block;
-	width: 400px;
+    vertical-align: top;
+	max-width: 400px;
 	height: 250px;
 }
 
 #total, #listado{
 	text-shadow: 2px 2px 5px black;
 	font-size: 20px;
+    text-align: left;
+}
+
+#listado{
+    padding-left: 50px;
 }
