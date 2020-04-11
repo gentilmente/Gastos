@@ -1,4 +1,3 @@
-
 html {
 	background: url("../imagenes/party.jpg");
 	background-repeat: no-repeat;
@@ -27,25 +26,22 @@ button {
 	color: white;
 }
 
-#contenedor{
+#contenedor {
 	position: relative;
 	width: 100%;
 	height: 100%;
 }
 
-#resultado, #entrada{
+#resultado, #entrada {
 	display: inline-block;
-    vertical-align: top;
+	vertical-align: top;
 	max-width: 400px;
 	height: 250px;
 }
 
-#total, #listado{
+#listado {
 	text-shadow: 2px 2px 5px black;
 	font-size: 20px;
-    text-align: left;
-}
-
-#listado{
-    padding-left: 50px;
+	text-align: left;
+	padding-left: 50px;
 }
