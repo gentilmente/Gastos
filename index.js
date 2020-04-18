@@ -84,6 +84,9 @@ function add() {
     pay: parseInt(document.getElementById("pago").value)
   };
   payments = [payment, ...payments];
+
+//clear inputs here
+
   calculate();
 }
 
@@ -159,9 +162,17 @@ function setBalance(creditor, debtor, payment) {
 }
 
 function generateOutput(creditor, debtor, payment) {
-  let payListDiv = document.getElementById("listado");
+  let resultListDiv = document.getElementById("result");
   let totalDiv = document.getElementById("total");
   let individualDiv = document.getElementById("individual");
+  
+  const payListDiv = document.getElementById("payments");
+  if (payListDiv.innerHTML === "") {
+    payments.map(payer => {
+      payListDiv.innerHTML += payer.name + ": $" + payer.pay + "<br/>"
+    }
+    )
+  }
 
   if (creditor.hasOwnProperty("debtors")) {
     creditor.debtors.push({ ...debtor, payment: payment });
@@ -169,7 +180,7 @@ function generateOutput(creditor, debtor, payment) {
     creditor["debtors"] = [{ ...debtor, payment: payment }];
   }
 
-  payListDiv.innerHTML += creditor.name + ": $" + creditor.pay + "<br/>"
+  resultListDiv.innerHTML += creditor.name + ": $" + creditor.pay + "<br/>"
 
   totalDiv.innerHTML = "Total: $" + total
   individualDiv.innerHTML = "A cada uno le toca aportar: $" + individualPayment
