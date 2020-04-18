@@ -1,26 +1,31 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Repartija</title>
-    <link rel="stylesheet" href="./styles.css">
-    <script type="text/javascript" src="index.js"></script>
-  </head>
-  <body>
-    <div id = 'contenedor'>
-      <h1>Repartija</h1>
-        <div id = 'entrada'>
-          <form>
-            <input id ='nombre' type='text' placeholder='Nombre'>
-            <input id ='pago' type='number' placeholder='y cuánto gastó'>     
-            <button type='button' onclick="add()"> enviar</button>
-          </form>
-        </div>
-      <div id = 'resultado'>
-        <div id="listado"></div>
-        <div id='total' type="text"></div>
-        <div id='individual' type="text"></div>
-      </div>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repartija</title>
+  <link href="https://fonts.googleapis.com/css?family=Satisfy&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="text/javascript" src="index.js"></script>
+</head>
+
+<body>
+  <div id='contenedor'>
+    <h1>Repartija</h1>
+    <div id='entrada'>
+      <form>
+        <input id='nombre' type='text' placeholder='Nombre'>
+        <input id='pago' type='number' placeholder='y cuánto gastó'>
+        <button type='button' onclick="add()"> enviar</button>
+      </form>
     </div>
-  </body>
+    <div id='resultado'>
+      <div id="listado"></div>
+      <div id='total' type="text"></div>
+      <div id='individual' type="text"></div>
+    </div>
+  </div>
+</body>
+
 </html>

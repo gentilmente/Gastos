@@ -162,7 +162,7 @@ function generateOutput(creditor, debtor, payment) {
   let payListDiv = document.getElementById("listado");
   let totalDiv = document.getElementById("total");
   let individualDiv = document.getElementById("individual");
-  
+
   if (creditor.hasOwnProperty("debtors")) {
     creditor.debtors.push({ ...debtor, payment: payment });
   } else {

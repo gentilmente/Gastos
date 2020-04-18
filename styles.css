@@ -1,21 +1,49 @@
+* {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
 html {
-	background: url("./assets/party.jpg");
-	background-repeat: no-repeat;
+	position: relative;
+	background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url("/assets/party.jpg");
 	background-attachment: fixed;
 	background-position: center;
-	background-color: black;
+	background-repeat: no-repeat;
 	background-size: cover;
-	color: white;
-	font-family: Helvetica;
-	font-size: 28px;
+	width: auto;
+	margin: auto;
 	text-align: center;
+	color: white;
+	font-family: Helvetica, cursive;
+	font-size: 22px;
+}
+
+h1, h2, p, li {
+	text-shadow: 1px 1px 7px black;
+	font-family: 'Satisfy', Helvetica, cursive;
+}
+
+h1 {
+	margin: auto;
+	margin-top: 50px;
+	font-size: 60px;
+}
+
+p {
+	font-size: 25px;
+}
+
+p.subtitle {
+	margin-bottom: 10px;
+	padding: 0px;
 }
 
 input, button {
 	margin: 0.5em;
 	border: 0;
 	padding: 10px;
-	font-size: 28px;
+	font-size: 22px;
 	color: black;
 	background-color: white;
 	opacity: 0.8;
@@ -35,8 +63,7 @@ button {
 #resultado, #entrada {
 	display: inline-block;
 	vertical-align: top;
-	max-width: 400px;
-	height: 250px;
+
 }
 
 #listado {
