@@ -85,7 +85,7 @@ function add() {
   };
   payments = [payment, ...payments];
 
-//clear inputs here
+  document.getElementById("myForm").reset();
 
   calculate();
 }
