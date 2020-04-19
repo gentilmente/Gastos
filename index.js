@@ -76,12 +76,18 @@ payments = [
 ]; */
 
 function add() {
+  const nombre = document.form.nombre.value.trim()
+  const pago = document.form.pago.value.trim()
+  if (nombre === "") {
+    document.form.nombre.focus()
+    return
+  }
   let uid = payments.length + 1;
   const payment = {
     id: uid++,
     done: true,
-    name: document.getElementById("nombre").value,
-    pay: parseInt(document.getElementById("pago").value)
+    name: nombre,
+    pay:  pago === "" ? 0 : parseInt(pago)
   };
   payments = [payment, ...payments];
 
@@ -165,7 +171,7 @@ function generateOutput(creditor, debtor, payment) {
   let resultListDiv = document.getElementById("result");
   let totalDiv = document.getElementById("total");
   let individualDiv = document.getElementById("individual");
-  
+
   const payListDiv = document.getElementById("payments");
   if (payListDiv.innerHTML === "") {
     payments.map(payer => {
