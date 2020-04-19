@@ -4,6 +4,11 @@
 	-webkit-box-sizing: border-box;
 }
 
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
 html {
 	position: relative;
 	background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url("/assets/party.jpg");
@@ -63,7 +68,6 @@ button {
 #resultado, #entrada {
 	display: inline-block;
 	vertical-align: top;
-
 }
 
 #listado {

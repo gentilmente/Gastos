@@ -82,18 +82,27 @@ function add() {
     document.form.nombre.focus()
     return
   }
+
   let uid = payments.length + 1;
   const payment = {
     id: uid++,
     done: true,
     name: nombre,
-    pay:  pago === "" ? 0 : parseInt(pago)
+    pay: pago === "" ? 0 : parseInt(pago)
   };
-  payments = [payment, ...payments];
+  payments = [...payments, payment];
 
   document.getElementById("myForm").reset();
 
+  clearResults();
   calculate();
+}
+
+function clearResults() {
+  document.getElementById("result").innerHTML = "";
+  document.getElementById("payments").innerHTML = "";
+  document.getElementById("total").innerHTML = "";
+  document.getElementById("individual").innerHTML = "";
 }
 
 function remove(payment) {
