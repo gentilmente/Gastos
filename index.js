@@ -78,24 +78,31 @@ payments = [
 function add() {
   const nombre = document.form.nombre.value.trim()
   const pago = document.form.pago.value.trim()
+
+  if (validate(nombre)) {
+    let uid = payments.length + 1;
+    const payment = {
+      id: uid++,
+      done: true,
+      name: nombre,
+      pay: pago === "" ? 0 : parseInt(pago)
+    };
+    payments = [...payments, payment];
+
+    document.getElementById("myForm").reset();
+
+    clearResults();
+    calculate();
+  }
+}
+
+function validate(nombre) {
   if (nombre === "") {
     document.form.nombre.focus()
-    return
+    return false
+  } else {
+    return true
   }
-
-  let uid = payments.length + 1;
-  const payment = {
-    id: uid++,
-    done: true,
-    name: nombre,
-    pay: pago === "" ? 0 : parseInt(pago)
-  };
-  payments = [...payments, payment];
-
-  document.getElementById("myForm").reset();
-
-  clearResults();
-  calculate();
 }
 
 function clearResults() {
