@@ -116,11 +116,6 @@ function remove(payment) {
   payments = payments.filter(t => t !== payment);
 }
 
-let output = {
-  total,
-  individualPayment,
-  result
-}
 
 function calculate() {
   let balance = prepareDataSet();
@@ -128,6 +123,14 @@ function calculate() {
 
   result = creditors.map(cred => collect(cred, debtors));
   console.log(result);
+
+  const output = {
+    total,
+    individualPayment,
+    result
+  }
+
+  generateOutput(output);
   return output;
 }
 
@@ -180,33 +183,50 @@ function toPay(debtor, creditor) {
 function setBalance(creditor, debtor, payment) {
   creditor.pay += payment;
   actualCreditorAmount = creditor.pay;
-  generateOutput(creditor, debtor, payment);
+  if (creditor.hasOwnProperty("debtors")) {
+    creditor.debtors.push({ payment: payment, ...debtor });
+  } else {
+    creditor["debtors"] = [{ payment: payment, ...debtor }];
+  }
+
 }
 
-function generateOutput(creditor, debtor, payment) {
-  let resultListDiv = document.getElementById("result");
-  let totalDiv = document.getElementById("total");
-  let individualDiv = document.getElementById("individual");
+function generateOutput(output) {
+  const totalDiv = document.getElementById("total");
+  totalDiv.innerHTML = "Total: $" + output.total
 
-  const payListDiv = document.getElementById("payments");
-  if (payListDiv.innerHTML === "") {
+  const individualDiv = document.getElementById("individual");
+  individualDiv.innerHTML = "A cada uno le toca aportar: $" + output.individualPayment
+
+  const resultListDiv = document.getElementById("result");
+  if (resultListDiv.innerHTML === "") {
+    createList(resultListDiv, output.result)
+  }
+
+  const originalInputListDiv = document.getElementById("payments");
+  if (originalInputListDiv.innerHTML === "") {
     payments.map(payer => {
-      payListDiv.innerHTML += payer.name + ": $" + payer.pay + "<br/>"
+      originalInputListDiv.innerHTML += payer.name + ": $" + payer.pay + "<br/>"
     }
     )
   }
-
-  if (creditor.hasOwnProperty("debtors")) {
-    creditor.debtors.push({ ...debtor, payment: payment });
-  } else {
-    creditor["debtors"] = [{ ...debtor, payment: payment }];
-  }
-
-  resultListDiv.innerHTML += creditor.name + ": $" + creditor.pay + "<br/>"
-
-  totalDiv.innerHTML = "Total: $" + total
-  individualDiv.innerHTML = "A cada uno le toca aportar: $" + individualPayment
-
 }
 
+function createList(parent, array) {
+  array.forEach(o => {
+    const credMsg = o.name + " cobra de:"
+    const debMsg = o.name + " $" + o.payment
+
+    const li = document.createElement("li")
+    li.textContent = o.payment ? debMsg : credMsg
+    parent.appendChild(li)
+
+    if (o.debtors) {
+      parent.appendChild(document.createElement("hr"))
+      const ul = document.createElement("ul")
+      li.appendChild(ul)
+      createList(ul, o.debtors)
+    }
+  });
+}
 

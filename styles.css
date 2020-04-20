@@ -21,27 +21,14 @@ html {
 	text-align: center;
 	color: white;
 	font-family: Helvetica, cursive;
+	text-shadow: 2px 2px 5px black;
 	font-size: 22px;
 }
 
-h1, h2, p, li {
-	text-shadow: 1px 1px 7px black;
-	font-family: 'Satisfy', Helvetica, cursive;
-}
-
 h1 {
-	margin: auto;
+	font-family: 'Satisfy', Helvetica, cursive;
 	margin-top: 50px;
 	font-size: 60px;
-}
-
-p {
-	font-size: 25px;
-}
-
-p.subtitle {
-	margin-bottom: 10px;
-	padding: 0px;
 }
 
 input, button {
@@ -59,19 +46,23 @@ button {
 	color: white;
 }
 
+ul {
+	list-style-type: none;
+	text-align: left;
+	margin-top: 5px;
+}
+
+li {
+	margin-bottom: 5px;
+}
+
 #contenedor {
 	position: relative;
 	width: 100%;
 	height: 100%;
 }
 
-#resultado, #entrada {
-	display: inline-block;
-	vertical-align: top;
-}
-
-#listado {
-	text-shadow: 2px 2px 5px black;
+#payments {
 	font-size: 20px;
 	text-align: left;
 	padding-left: 50px;
