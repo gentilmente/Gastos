@@ -1,57 +1,18 @@
 
-let payments = [];
-let total;
-let individualPayment = 0;
-
-let debtorss = [];
-let credAccum;
-let actualCreditorAmount;
-let result = [];
+let payments = []
+let total
+let individualPayment = 0
+let result = []
 
 payments = [
-  {
-    id: 1,
-    done: true,
-    name: "Bufarra",
-    pay: 40
-  },
-  {
-    id: 2,
-    done: true,
-    name: "Martin",
-    pay: 600
-  },
-  {
-    id: 3,
-    done: true,
-    name: "Joni",
-    pay: 150
-  },
-  {
-    id: 4,
-    done: true,
-    name: "Pedro",
-    pay: 0
-  },
-  {
-    id: 5,
-    done: true,
-    name: "Cachi",
-    pay: 0
-  },
-  {
-    id: 6,
-    done: true,
-    name: "Gisela",
-    pay: 200
-  }
-  /*     {
-    id: 7,
-    done: true,
-    name: "Eze",
-    pay: 0
-  } */
-];
+  { id: 1, done: true, name: "Bufarra", pay: 40 },
+  { id: 2, done: true, name: "Martin", pay: 600 },
+  { id: 3, done: true, name: "Joni", pay: 150 },
+  { id: 4, done: true, name: "Pedro", pay: 0 },
+  { id: 5, done: true, name: "Cachi", pay: 0 },
+  { id: 6, done: true, name: "Gisela", pay: 200 }
+  //,{ id: 7, done: true, name: "Eze", pay: 0 }
+]
 
 /* let result = [
   {
@@ -73,26 +34,26 @@ payments = [
     name: "Joni",
     debtors: [{ name: "Eze", pay: 11, payment: 33 }]
   }
-]; */
+] */
 
 function add() {
   const nombre = document.form.nombre.value.trim()
   const pago = document.form.pago.value.trim()
 
   if (validate(nombre)) {
-    let uid = payments.length + 1;
+    let uid = payments.length + 1
     const payment = {
       id: uid++,
       done: true,
       name: nombre,
-      pay: pago === "" ? 0 : parseInt(pago)
-    };
-    payments = [...payments, payment];
+      pay: pago === "" ? 0 : pago
+    }
+    payments = [...payments, payment]
 
-    document.getElementById("myForm").reset();
+    document.getElementById("myForm").reset()
 
-    clearResults();
-    calculate();
+    clearResults()
+    calculate()
   }
 }
 
@@ -106,44 +67,72 @@ function validate(nombre) {
 }
 
 function clearResults() {
-  document.getElementById("result").innerHTML = "";
-  document.getElementById("payments").innerHTML = "";
-  document.getElementById("total").innerHTML = "";
-  document.getElementById("individual").innerHTML = "";
+  document.getElementById("result").innerHTML = ""
+  document.getElementById("payments").innerHTML = ""
+  document.getElementById("total").innerHTML = ""
+  document.getElementById("individual").innerHTML = ""
 }
 
 function remove(payment) {
-  payments = payments.filter(t => t !== payment);
+  payments = payments.filter(t => t !== payment)
 }
 
-
 function calculate() {
-  let balance = prepareDataSet();
-  let { creditors, debtors } = devideList(balance);
+  let balance = prepareDataSet()
+  let { creditors, debtors } = devideList(balance)
 
-  result = creditors.map(cred => collect(cred, debtors));
-  console.log(result);
+  result = creditors.map((creditor) => {
+    let yetToPay = creditor.pay
+    debtors.map((debtor) => {
+      let payment
+      if (debtor.pay > 0 && yetToPay < 0) {
+        if (debtor.pay + creditor.pay <= 0) {
+          payment = debtor.pay
+          debtor.pay = 0
 
-  const output = {
-    total,
-    individualPayment,
-    result
-  }
+          creditor.pay += payment
+          yetToPay = creditor.pay
+          if (creditor.hasOwnProperty("debtors")) {
+            creditor.debtors.push({ payment: Math.round(payment), ...debtor })
+          } else {
+            creditor["debtors"] = [{ payment: Math.round(payment), ...debtor }]
+          }
+        } else {
+          payment = yetToPay * -1
+          debtor.pay -= payment
 
-  generateOutput(output);
-  return output;
+          creditor.pay += payment
+          yetToPay = creditor.pay
+          if (creditor.hasOwnProperty("debtors")) {
+            creditor.debtors.push({ payment: Math.round(payment), ...debtor })
+          } else {
+            creditor["debtors"] = [{ payment: Math.round(payment), ...debtor }]
+          }
+        }
+
+      }
+
+    })
+    return creditor
+  })
+
+
+  console.log(result)
+  const output = { total, individualPayment, result }
+  generateOutput(output)
+  return output
 }
 
 function prepareDataSet() {
-  let payers = payments.filter(t => t.done);
-  total = payers.reduce((a, b) => a + (b["pay"] || 0), 0);
-  individualPayment = Math.round(total / payers.length);
+  let payers = payments.filter(t => t.done)
+  total = payers.reduce((acc, curr) => acc + (curr.pay || 0), 0)
+  individualPayment = Math.round(total / payers.length)
   return payers.map(payment => {
     return {
       ...payment, //spread all props to new object except the one you need to change
       pay: individualPayment - payment.pay
-    };
-  });
+    }
+  })
 }
 
 function devideList(balance) {
@@ -154,56 +143,22 @@ function devideList(balance) {
     debtors: balance
       .filter(e => e.pay >= 0)
       .sort((a, b) => (a.pay > b.pay ? -1 : 1))
-  };
-}
-
-function collect(creditor, debtors) {
-  actualCreditorAmount = creditor.pay;
-  credAccum = 0;
-  debtors.map(debtor => toPay(debtor, creditor));
-  return creditor; //construir un objeto custom para 
-}
-
-function toPay(debtor, creditor) {
-  const credAmount = creditor.pay;
-  if (debtor.pay > 0 && actualCreditorAmount < 0) {
-    credAccum += debtor.pay;
-    let yetToPay = credAccum + credAmount;
-    if (yetToPay > 0 && yetToPay < individualPayment) {
-      let payment = debtor.pay - yetToPay;
-      setBalance(creditor, debtor, payment);
-    } else if (debtor.pay < individualPayment) {
-      setBalance(creditor, debtor, debtor.pay);
-    } else if (yetToPay <= 0) {
-      setBalance(creditor, debtor, individualPayment);
-    }
   }
-}
-
-function setBalance(creditor, debtor, payment) {
-  creditor.pay += payment;
-  actualCreditorAmount = creditor.pay;
-  if (creditor.hasOwnProperty("debtors")) {
-    creditor.debtors.push({ payment: payment, ...debtor });
-  } else {
-    creditor["debtors"] = [{ payment: payment, ...debtor }];
-  }
-
 }
 
 function generateOutput(output) {
-  const totalDiv = document.getElementById("total");
+  const totalDiv = document.getElementById("total")
   totalDiv.innerHTML = "Total: $" + output.total
 
-  const individualDiv = document.getElementById("individual");
+  const individualDiv = document.getElementById("individual")
   individualDiv.innerHTML = "A cada uno le toca aportar: $" + output.individualPayment
 
-  const resultListDiv = document.getElementById("result");
+  const resultListDiv = document.getElementById("result")
   if (resultListDiv.innerHTML === "") {
     createList(resultListDiv, output.result)
   }
 
-  const originalInputListDiv = document.getElementById("payments");
+  const originalInputListDiv = document.getElementById("payments")
   if (originalInputListDiv.innerHTML === "") {
     payments.map(payer => {
       originalInputListDiv.innerHTML += payer.name + ": $" + payer.pay + "<br/>"
@@ -227,6 +182,6 @@ function createList(parent, array) {
       li.appendChild(ul)
       createList(ul, o.debtors)
     }
-  });
+  })
 }
 
