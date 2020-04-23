@@ -1,4 +1,4 @@
-//pre refactor (important and good)
+//
 let payments = []
 let total
 let individualPayment = 0
@@ -10,8 +10,8 @@ payments = [
   { id: 3, done: true, name: "Joni", pay: 150 },
   { id: 4, done: true, name: "Pedro", pay: 0 },
   { id: 5, done: true, name: "Cachi", pay: 0 },
-  { id: 6, done: true, name: "Gisela", pay: 200 }
-  //,{ id: 7, done: true, name: "Eze", pay: 0 }
+  { id: 6, done: true, name: "Gisela", pay: 200 },
+  { id: 7, done: true, name: "Eze", pay: 0 }
 ]
 
 /* let result = [
@@ -82,7 +82,19 @@ function calculate() {
   let { creditors, debtors } = devideList(balance)
 
   result = creditors.map((creditor) => {
-    debtPayments(creditor, debtors)
+    let yetToPay = creditor.pay
+    debtors.map((debtor) => {
+      let payment
+      if (debtor.pay > 0 && yetToPay < 0) {//Is anyone still owed money?
+        //si deudor paga, ¿a acreedor siguen debiéndole?
+        if (debtor.pay + creditor.pay <= 0) {
+          ({ payment, yetToPay } = setAcountStates(payment, 0, debtor, creditor))
+        } else {
+          ({ payment, yetToPay } = setAcountStates(payment, yetToPay, debtor, creditor))
+        }
+        composeOutputObj(creditor, payment, debtor)
+      }
+    })
     return creditor
   })
 
@@ -92,38 +104,30 @@ function calculate() {
   return output
 }
 
-function debtPayments(creditor, debtors) {
-  let yetToPay = creditor.pay
-  debtors.map((debtor) => {
-    yetToPay = collect(debtor, yetToPay, creditor)
-  })
+function setAcountStates(payment, yetToPay, debtor, creditor) {
+  payment = debtorPayment(payment, debtor, yetToPay)
+  yetToPay = creditorCollect(creditor, payment, yetToPay)
+  return { payment, yetToPay }
 }
 
-function collect(debtor, yetToPay, creditor) {
-  let payment
-  if (debtor.pay > 0 && yetToPay < 0) {
-    if (debtor.pay + creditor.pay <= 0) {
-      payment = debtor.pay
-      debtor.pay = 0
-      yetToPay = setBalance(yetToPay, creditor, payment, debtor)
-    }
-    else {
-      payment = yetToPay * -1
-      debtor.pay -= payment
-      yetToPay = setBalance(yetToPay, creditor, payment, debtor)
-    }
+function debtorPayment(payment, debtor, yetToPay) {
+  if (yetToPay === 0) {
+    payment = debtor.pay
+    debtor.pay = 0
+  } else {
+    payment = yetToPay * -1
+    debtor.pay -= payment
   }
-  return yetToPay
+  return payment
 }
 
-function setBalance(yetToPay, creditor, payment, debtor) {
-  yetToPay = creditor.pay
+function creditorCollect(creditor, payment, yetToPay) {
   creditor.pay += payment
-  setOutputData(creditor, payment, debtor)
+  yetToPay = creditor.pay
   return yetToPay
 }
 
-function setOutputData(creditor, payment, debtor) {
+function composeOutputObj(creditor, payment, debtor) {
   if (creditor.hasOwnProperty("debtors")) {
     creditor.debtors.push({ payment: Math.round(payment), ...debtor })
   }
@@ -193,4 +197,3 @@ function createList(parent, array) {
     }
   })
 }
-
