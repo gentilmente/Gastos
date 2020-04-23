@@ -82,45 +82,54 @@ function calculate() {
   let { creditors, debtors } = devideList(balance)
 
   result = creditors.map((creditor) => {
-    let yetToPay = creditor.pay
-    debtors.map((debtor) => {
-      let payment
-      if (debtor.pay > 0 && yetToPay < 0) {
-        if (debtor.pay + creditor.pay <= 0) {
-          payment = debtor.pay
-          debtor.pay = 0
-
-          creditor.pay += payment
-          yetToPay = creditor.pay
-          if (creditor.hasOwnProperty("debtors")) {
-            creditor.debtors.push({ payment: Math.round(payment), ...debtor })
-          } else {
-            creditor["debtors"] = [{ payment: Math.round(payment), ...debtor }]
-          }
-        } else {
-          payment = yetToPay * -1
-          debtor.pay -= payment
-
-          creditor.pay += payment
-          yetToPay = creditor.pay
-          if (creditor.hasOwnProperty("debtors")) {
-            creditor.debtors.push({ payment: Math.round(payment), ...debtor })
-          } else {
-            creditor["debtors"] = [{ payment: Math.round(payment), ...debtor }]
-          }
-        }
-
-      }
-
-    })
+    debtPayments(creditor, debtors)
     return creditor
   })
-
 
   console.log(result)
   const output = { total, individualPayment, result }
   generateOutput(output)
   return output
+}
+
+function debtPayments(creditor, debtors) {
+  let yetToPay = creditor.pay
+  debtors.map((debtor) => {
+    yetToPay = collect(debtor, yetToPay, creditor)
+  })
+}
+
+function collect(debtor, yetToPay, creditor) {
+  let payment
+  if (debtor.pay > 0 && yetToPay < 0) {
+    if (debtor.pay + creditor.pay <= 0) {
+      payment = debtor.pay
+      debtor.pay = 0
+      yetToPay = setBalance(yetToPay, creditor, payment, debtor)
+    }
+    else {
+      payment = yetToPay * -1
+      debtor.pay -= payment
+      yetToPay = setBalance(yetToPay, creditor, payment, debtor)
+    }
+  }
+  return yetToPay
+}
+
+function setBalance(yetToPay, creditor, payment, debtor) {
+  yetToPay = creditor.pay
+  creditor.pay += payment
+  setOutputData(creditor, payment, debtor)
+  return yetToPay
+}
+
+function setOutputData(creditor, payment, debtor) {
+  if (creditor.hasOwnProperty("debtors")) {
+    creditor.debtors.push({ payment: Math.round(payment), ...debtor })
+  }
+  else {
+    creditor["debtors"] = [{ payment: Math.round(payment), ...debtor }]
+  }
 }
 
 function prepareDataSet() {
