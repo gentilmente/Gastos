@@ -11,7 +11,7 @@ a {
 
 html {
 	position: relative;
-	background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url("/assets/party.jpg");
+	background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url("./assets/party.jpg");
 	background-attachment: fixed;
 	background-position: center;
 	background-repeat: no-repeat;
