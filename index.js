@@ -1,4 +1,4 @@
-
+//pre refactor (important and good)
 let payments = []
 let total
 let individualPayment = 0
