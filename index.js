@@ -111,12 +111,13 @@ function setAcountStates(payment, yetToPay, debtor, creditor) {
 }
 
 function debtorPayment(payment, debtor, yetToPay) {
-  if (yetToPay === 0) {
-    payment = debtor.pay
-    debtor.pay = 0
-  } else {
+  if (yetToPay < 0) {
     payment = yetToPay * -1
     debtor.pay -= payment
+  } else {
+
+    payment = debtor.pay
+    debtor.pay = 0
   }
   return payment
 }
