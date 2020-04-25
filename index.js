@@ -1,7 +1,7 @@
 //
 let payments = []
 
-/* payments = [
+payments = [
   { id: 1, done: true, name: "Bufarra", pay: 40 },
   { id: 2, done: true, name: "Martin", pay: 600 },
   { id: 3, done: true, name: "Joni", pay: 150 },
@@ -10,7 +10,7 @@ let payments = []
   { id: 6, done: true, name: "Gisela", pay: 200 },
   { id: 7, done: true, name: "Eze", pay: 0 }
 ]
- */
+
 /* let result = [
   {
     id: 2,
@@ -82,7 +82,8 @@ function calculate() {
   output.result = creditors.map((creditor) => {
     debtors.map((debtor) => {
       if (debtor.pay > 0 && creditor.pay < 0) {
-        let payment = setAcountsStates(debtor, creditor)
+        const payment = getDebtorPayment(debtor, creditor.pay)
+        setAcountsStates(creditor, debtor, payment)
         composeOutputObj(creditor, debtor, payment)
       }
     })
@@ -117,11 +118,9 @@ function devideList(balance) {
   }
 }
 
-function setAcountsStates(debtor, creditor) {
-  const payment = getDebtorPayment(debtor, creditor.pay)
+function setAcountsStates(creditor, debtor, payment) {
   debtor.pay -= payment
   creditor.pay += payment
-  return payment
 }
 
 function getDebtorPayment(debtor, yetToPay) {
@@ -176,3 +175,4 @@ function createList(parent, array) {
     }
   })
 }
+
