@@ -118,16 +118,15 @@ function devideList(balance) {
 }
 
 function setAcountsStates(debtor, creditor) {
-  payment = debtorPayment(debtor, creditor.pay)
+  const payment = getDebtorPayment(debtor, creditor.pay)
+  debtor.pay -= payment
   creditor.pay += payment
   return payment
 }
 
-function debtorPayment(debtor, yetToPay) {
+function getDebtorPayment(debtor, yetToPay) {
   const willCreditorStillOwed = debtor.pay + yetToPay < 0
-  const payment = willCreditorStillOwed ? debtor.pay : yetToPay * -1
-  debtor.pay -= payment
-  return payment
+  return willCreditorStillOwed ? debtor.pay : yetToPay * -1
 }
 
 function composeOutputObj(creditor, debtor, payment) {
