@@ -1,37 +1,4 @@
-//
 let payments = []
-
-/* payments = [
-  { id: 1, done: true, name: "Bufarra", pay: 40 },
-  { id: 2, done: true, name: "Martin", pay: 600 },
-  { id: 3, done: true, name: "Joni", pay: 150 },
-  { id: 4, done: true, name: "Pedro", pay: 0 },
-  { id: 5, done: true, name: "Cachi", pay: 0 },
-  { id: 6, done: true, name: "Gisela", pay: 200 },
-  { id: 7, done: true, name: "Eze", pay: 0 }
-] */
-
-/* let result = [
-  {
-    id: 2,
-    name: "Martin",
-    debtors: [
-      { id: 3, name: "Bufarra", pay: 101, payment: 33 },
-      { id: 3, name: "Pedro", pay: 141, payment: 33 },
-      { id: 3, name: "Cachi", pay: 141, payment: 33 },
-      { id: 3, name: "Eze", pay: 76, payment: 33 }
-    ]
-  },
-  {
-    name: "Gisela",
-    debtors: [{ name: "Eze", pay: 54, payment: 33 }]
-  },
-
-  {
-    name: "Joni",
-    debtors: [{ name: "Eze", pay: 11, payment: 33 }]
-  }
-] */
 
 function add() {
   const nombre = document.form.nombre.value.trim()
