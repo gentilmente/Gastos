@@ -82,16 +82,9 @@ function calculate() {
   let { creditors, debtors } = devideList(balance)
 
   result = creditors.map((creditor) => {
-    let yetToPay = creditor.pay
     debtors.map((debtor) => {
-      let payment
-      if (debtor.pay > 0 && yetToPay < 0) {//Is anyone still owed money?
-        //si deudor paga, ¿a acreedor siguen debiéndole?
-        if (debtor.pay + creditor.pay <= 0) {
-          ({ payment, yetToPay } = setAcountStates(payment, 0, debtor, creditor))
-        } else {
-          ({ payment, yetToPay } = setAcountStates(payment, yetToPay, debtor, creditor))
-        }
+      if (debtor.pay > 0 && creditor.pay < 0) {
+        let payment = setAcountStates(debtor, creditor)
         composeOutputObj(creditor, payment, debtor)
       }
     })
@@ -104,36 +97,33 @@ function calculate() {
   return output
 }
 
-function setAcountStates(payment, yetToPay, debtor, creditor) {
-  payment = debtorPayment(payment, debtor, yetToPay)
-  yetToPay = creditorCollect(creditor, payment, yetToPay)
-  return { payment, yetToPay }
+function setAcountStates(debtor, creditor) {
+  const willCreditorStillOwed = debtor.pay + creditor.pay < 0
+  let yetToPay = willCreditorStillOwed ? 0 : creditor.pay;
+
+  payment = debtorPayment(debtor, yetToPay)
+  creditor.pay += payment
+  return payment
 }
 
-function debtorPayment(payment, debtor, yetToPay) {
+function debtorPayment(debtor, yetToPay) {
+  let payment = 0
   if (yetToPay < 0) {
     payment = yetToPay * -1
     debtor.pay -= payment
   } else {
-
     payment = debtor.pay
     debtor.pay = 0
   }
   return payment
 }
 
-function creditorCollect(creditor, payment, yetToPay) {
-  creditor.pay += payment
-  yetToPay = creditor.pay
-  return yetToPay
-}
-
 function composeOutputObj(creditor, payment, debtor) {
+  const obj = { payment: Math.round(payment), ...debtor }
   if (creditor.hasOwnProperty("debtors")) {
-    creditor.debtors.push({ payment: Math.round(payment), ...debtor })
-  }
-  else {
-    creditor["debtors"] = [{ payment: Math.round(payment), ...debtor }]
+    creditor.debtors.push(obj)
+  } else {
+    creditor["debtors"] = [obj]
   }
 }
 
