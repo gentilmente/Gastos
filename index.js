@@ -3,7 +3,7 @@ let payments = []
 let total
 let individualPayment = 0
 let result = []
-
+/* 
 payments = [
   { id: 1, done: true, name: "Bufarra", pay: 40 },
   { id: 2, done: true, name: "Martin", pay: 600 },
@@ -12,7 +12,7 @@ payments = [
   { id: 5, done: true, name: "Cachi", pay: 0 },
   { id: 6, done: true, name: "Gisela", pay: 200 },
   { id: 7, done: true, name: "Eze", pay: 0 }
-]
+] */
 
 /* let result = [
   {
@@ -46,7 +46,7 @@ function add() {
       id: uid++,
       done: true,
       name: nombre,
-      pay: pago === "" ? 0 : pago
+      pay: pago === "" ? 0 : parseInt(pago)
     }
     payments = [...payments, payment]
 
@@ -85,7 +85,7 @@ function calculate() {
     debtors.map((debtor) => {
       if (debtor.pay > 0 && creditor.pay < 0) {
         let payment = setAcountStates(debtor, creditor)
-        composeOutputObj(creditor, payment, debtor)
+        composeOutputObj(creditor, debtor, payment)
       }
     })
     return creditor
@@ -98,27 +98,26 @@ function calculate() {
 }
 
 function setAcountStates(debtor, creditor) {
-  const willCreditorStillOwed = debtor.pay + creditor.pay < 0
-  let yetToPay = willCreditorStillOwed ? 0 : creditor.pay;
-
-  payment = debtorPayment(debtor, yetToPay)
+  payment = debtorPayment(debtor, creditor.pay)
   creditor.pay += payment
   return payment
 }
 
 function debtorPayment(debtor, yetToPay) {
+  const willCreditorStillOwed = debtor.pay + yetToPay < 0
   let payment = 0
-  if (yetToPay < 0) {
-    payment = yetToPay * -1
-    debtor.pay -= payment
-  } else {
+
+  if (willCreditorStillOwed) {
     payment = debtor.pay
     debtor.pay = 0
+  } else {
+    payment = yetToPay * -1
+    debtor.pay -= payment
   }
   return payment
 }
 
-function composeOutputObj(creditor, payment, debtor) {
+function composeOutputObj(creditor, debtor, payment) {
   const obj = { payment: Math.round(payment), ...debtor }
   if (creditor.hasOwnProperty("debtors")) {
     creditor.debtors.push(obj)
