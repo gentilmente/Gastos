@@ -83,7 +83,8 @@ function calculate() {
     debtors.map((debtor) => {
       if (debtor.pay > 0 && creditor.pay < 0) {
         const payment = getDebtorPayment(debtor, creditor.pay)
-        setAcountsStates(creditor, debtor, payment)
+        debtor.pay -= payment
+        creditor.pay += payment
         composeOutputObj(creditor, debtor, payment)
       }
     })
@@ -116,11 +117,6 @@ function devideList(balance) {
       .filter(e => e.pay >= 0)
       .sort((a, b) => (a.pay > b.pay ? -1 : 1))
   }
-}
-
-function setAcountsStates(creditor, debtor, payment) {
-  debtor.pay -= payment
-  creditor.pay += payment
 }
 
 function getDebtorPayment(debtor, yetToPay) {
