@@ -1,7 +1,7 @@
 //
 let payments = []
 
-payments = [
+/* payments = [
   { id: 1, done: true, name: "Bufarra", pay: 40 },
   { id: 2, done: true, name: "Martin", pay: 600 },
   { id: 3, done: true, name: "Joni", pay: 150 },
@@ -9,7 +9,7 @@ payments = [
   { id: 5, done: true, name: "Cachi", pay: 0 },
   { id: 6, done: true, name: "Gisela", pay: 200 },
   { id: 7, done: true, name: "Eze", pay: 0 }
-]
+] */
 
 /* let result = [
   {
