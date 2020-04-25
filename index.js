@@ -37,12 +37,8 @@ function clearResults() {
   document.getElementById("individual").innerHTML = ""
 }
 
-function remove(payment) {
-  payments = payments.filter(t => t !== payment)
-}
-
 function calculate() {
-  const output = { total, individualPayment: 0, result: [] }
+  const output = { total: 0, individualPayment: 0, result: [] }
   let balance = arrangeInitialConditions(output)
   let { creditors, debtors } = devideList(balance)
 
@@ -60,7 +56,6 @@ function calculate() {
 
   console.log(output)
   generateOutput(output)
-  return output
 }
 
 function arrangeInitialConditions(output) {
